@@ -45,37 +45,47 @@ jobs:
           dir:          ${{ runner.temp }}
           setup-python: false
 
-      - name: (4) Download JOM
+      - name: (4) Set Qt Environment Variables
+        run: |
+          echo "Setting Qt Environment Variables"
+             echo "QTDIR=${{ runner.temp }}/Qt/${{ env.QT_VERSION }}/msvc2019_64" >> $GITHUB_ENV
+             echo "QtToolsPath=${{ runner.temp }}/Qt/${{ env.QT_VERSION }}/msvc2019_64/bin" >> $GITHUB_ENV
+        shell: bash
+
+      - name: (5) Download JOM
         uses: suisei-cn/actions-download-file@v1
         with:
           url:    http://download.qt.io/official_releases/jom/jom.zip
           target: ${{ runner.temp }}\
 
-      - name: (5) Unzip JOM
+      - name: (6) Unzip JOM
         working-directory: ${{ runner.temp }}
         run:  |
               7z x jom.zip -ojom
+
+      - name: (7) Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
               
-      - name: (6) Create build directory
+      - name: (8) Create build directory
         run:  mkdir ${{ runner.temp }}\build
 
-      - name: (7) Set up Visual Studio shell
+      - name: (9) Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
         with:
           arch: x64
 
-      - name: (8) Build
+      - name: (10) Build
         working-directory: ${{ runner.temp }}\build
         run:  |
               echo "Current directory: $($PWD.Path)"
               msbuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:OutDir=${{ runner.temp }}\build\ "${{ env.SOURCE_DIR }}\VehTools.sln"
               
-      - name: (9) Zip build
+      - name: (11) Zip build
         working-directory: ${{ runner.temp }}
         run:  |
               7z a VehTools.zip ${{ runner.temp }}\build\* -r
               
-      - name: (10) Save build artifact
+      - name: (12) Save build artifact
         uses: actions/upload-artifact@master
         with:
           name: ${{ env.ARTIFACT }}
