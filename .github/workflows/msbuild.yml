@@ -18,6 +18,7 @@ env:
   SOURCE_DIR:   ${{ github.workspace }}
   QT_VERSION:   5.15.2
   ARTIFACT:     VehTools.zip
+  BUILD_CONFIGURATION: Release
 
 jobs:
   build:
