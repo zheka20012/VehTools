@@ -43,7 +43,11 @@ jobs:
           target:       desktop
           arch:         win64_msvc2019_64
           dir:          ${{ runner.temp }}
-          setup-python: false
+          modules: 'qtcore qtwidgets qtgui'
+          cached: 'false'
+          setup-python: 'false'
+          tools-only: 'false'
+          
 
       - name: (4) Set Qt Environment Variables
         run: |
@@ -78,7 +82,7 @@ jobs:
         working-directory: ${{ runner.temp }}\build
         run:  |
               echo "Current directory: $($PWD.Path)"
-              msbuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:OutDir=${{ runner.temp }}\build\ "${{ env.SOURCE_DIR }}\VehTools.sln"
+              msbuild /m /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:OutDir=${{ runner.temp }}\build\ "${{ env.SOURCE_DIR }}\VehTools.sln"
               
       - name: (11) Zip build
         working-directory: ${{ runner.temp }}
