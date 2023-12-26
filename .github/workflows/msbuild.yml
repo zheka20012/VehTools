@@ -67,7 +67,7 @@ jobs:
         working-directory: ${{ runner.temp }}\build
         run:  |
               echo "Current directory: $($PWD.Path)"
-              msbuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:OutDir=${{ runner.temp }}\build\ "${{ env.SOLUTION_FILE_PATH }}\VehTools.sln"
+              msbuild /p:Configuration=${{ env.BUILD_CONFIGURATION }} /p:OutDir=${{ runner.temp }}\build\ "${{ env.SOURCE_DIR }}\VehTools.sln"
               
       - name: (9) Zip build
         working-directory: ${{ runner.temp }}
