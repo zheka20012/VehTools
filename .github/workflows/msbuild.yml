@@ -44,9 +44,7 @@ jobs:
           arch:         win64_msvc2019_64
           dir:          ${{ runner.temp }}
           modules: 'qtcore qtwidgets qtgui'
-          cached: 'false'
-          setup-python: 'false'
-          tools-only: 'false'
+          setup-python: false 
           
 
       - name: (4) Set Qt Environment Variables
